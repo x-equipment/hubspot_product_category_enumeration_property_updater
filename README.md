@@ -10,6 +10,9 @@ This Python script automates the process of synchronizing product categories bet
 ## Features
 
 -   **Automatic Synchronization:** Keeps the product category enumeration property up-to-date with the custom object.
+-   **Selective Synchronization:** Allows syncing a single category or all categories.
+-   **Category Removal:** Automatically removes categories from the enumeration property if they no longer exist in the custom object.
+-   **Detailed Output:** Provides information about the action performed (create, update, delete) and the category ID.
 -   **HubSpot Custom Code and Bash Compatibility:** Can be executed both as a HubSpot Custom Code action and directly from the command line (Bash).
 -   **Pagination Handling:** Efficiently handles large numbers of product categories using HubSpot's pagination.
 -   **Error Handling:** Includes robust error handling and logging.
@@ -55,7 +58,8 @@ This Python script automates the process of synchronizing product categories bet
 1.  In your HubSpot workflow, create a "Custom Code" action.
 2.  Copy and paste the contents of `update_product_category_enum.py` into the code editor.
 3.  In the "Secrets" section, add a secret named `HUBSPOT_ACCESS_TOKEN` and paste your HubSpot API key as the value.
-4.  Test and publish the workflow.
+4.  In the "Input fields" section, add an input field named `category_id`. If you want to sync all categories, leave the value empty. If you want to sync a single category, use the token corresponding to the category ID (e.g., `{{productcategory.id}}`).
+5.  Test and publish the workflow.
 
 ### Bash Execution
 
@@ -65,6 +69,14 @@ This Python script automates the process of synchronizing product categories bet
     ```bash
     python update_product_category_enum.py
     ```
+
+    To sync a single category, provide the `--category_id` argument:
+
+    ```bash
+    python update_product_category_enum.py --category_id your_category_id
+    ```
+
+    Replace `your_category_id` with the actual ID of the category you want to sync.
 
 ## Configuration
 
