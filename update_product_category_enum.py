@@ -195,8 +195,18 @@ def main(event=None):
         category_id = None
         if event and event.get("inputFields") and event.get("inputFields").get("category_id"):
             category_id = event.get("inputFields").get("category_id")
-        elif args and args.category_id:
-            category_id = args.category_id
+        else:
+            try:
+                import argparse
+                parser = argparse.ArgumentParser(description="Sync HubSpot product categories.")
+                parser.add_argument("--category_id", type=str, help="Sync a specific category by ID.")
+                args = parser.parse_args()
+                if args.category_id:
+                    category_id = args.category_id
+            except ImportError:
+                pass # argparse not available, likely running in hubspot.
+            except SystemExit:
+                pass # argparse finished, likely called from command line without args.
 
         if PRODUCT_OBJECT_TYPE and product_category_object_type:
             product_categories = get_product_categories(
